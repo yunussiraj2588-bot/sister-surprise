@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Surprise for My Sister ❤️</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- 3D background layers -->
+  <div class="bg-3d" aria-hidden="true">
+    <div class="layer layer-1"></div>
+    <div class="layer layer-2"></div>
+    <div class="layer layer-3"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="brand">A Surprise For You</h1>
+      <button id="openSurprise" class="btn big" title="Open the surprise (or press S)">SURPRISE</button>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <section class="intro">
+      <h2>To my beloved sister</h2>
+      <p class="lead">You make every ordinary day feel like something special. This is my little surprise for you — open it and know that you mean everything to me.</p>
+
+      <article class="letter">
+        <h3>A long message from me</h3>
+        <p>Every time I see you smile my heart becomes lighter. You bring laughter into my life, calm when I’m worried, and joy when I least expect it. I keep your kindness in my thoughts and remind myself how lucky I am to have you as my sister.</p>
+        <p>When I remember the small moments — your jokes, the way you always listen, the silly faces — I feel so grateful. You lift me up, you inspire me to be better, and your presence makes everything brighter. I want you to know that no matter where life takes us, I will always be by your side.</p>
+        <p class="final-line">i loveee you yene duduye forever 💕</p>
+      </article>
+
+      <p class="muted">Tip: press the "S" key to open the surprise quickly.</p>
+    </section>
+
+    <section class="gallery">
+      <h3>Surprise</h3>
+      <p class="muted">Click SURPRISE to open the full experience.</p>
+      <div class="thumbs">
+        <!-- decorative placeholder artwork when photo is not used -->
+        <div class="placeholder">
+          <svg width="100%" height="100%" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Heart decoration">
+            <defs>
+              <linearGradient id="g" x1="0" x2="1">
+                <stop stop-color="#ff6b81" offset="0" />
+                <stop stop-color="#ff9bb3" offset="1" />
+              </linearGradient>
+            </defs>
+            <rect width="600" height="400" fill="url(#g)" opacity="0.12" />
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="28" font-family="Arial, Helvetica, sans-serif">Your Surprise Awaits</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Made with ♥ — a little surprise</p>
+    </div>
+  </footer>
+
+  <!-- Surprise modal (photo removed) -->
+  <div id="surpriseModal" class="modal" aria-hidden="true">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="surpriseTitle" tabindex="-1">
+      <button id="closeModal" class="close" aria-label="Close">✕</button>
+      <h2 id="surpriseTitle">To My Dearest Sister</h2>
+
+      <div class="modal-body">
+        <div class="message center">
+          <p id="bigMessage" class="big">i loveee you yene duduye forever 💕</p>
+          <p class="long-text">You make me so happy — your laugh, your hugs, the way you cheer me up. I love you more than words can say and I promise to always be there for you. Forever and always.</p>
+          <p class="signed">— With all my love</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- autoplay audio (attempt) -->
+  <audio id="bgAudio" src="https://cdn.pixabay.com/download/audio/2022/08/19/audio_9f8f1a9f12.mp3?filename=gentle-acoustic-guitar-17234.mp3" autoplay loop></audio>
+
+  <script>
+    (function(){
+      const openBtn = document.getElementById('openSurprise');
+      const modal = document.getElementById('surpriseModal');
+      const modalPanel = modal.querySelector('.modal-panel');
+      const closeBtn = document.getElementById('closeModal');
+      const bg3d = document.querySelector('.bg-3d');
+      const bgAudio = document.getElementById('bgAudio');
+
+      function tryPlayAudio() {
+        bgAudio.play().catch(()=>{ /* blocked by browser */ });
+      }
+      tryPlayAudio();
+
+      function openModal() {
+        bg3d.classList.add('boom');
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('no-scroll');
+        modalPanel.focus();
+        launchConfetti(80);
+        modalPanel.classList.remove('panel-animate');
+        void modalPanel.offsetWidth;
+        modalPanel.classList.add('panel-animate');
+        tryPlayAudio();
+        setTimeout(()=> bg3d.classList.remove('boom'), 1800);
+      }
+
+      function closeModal() {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('no-scroll');
+      }
+
+      openBtn.addEventListener('click', openModal);
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'flex') closeModal();
+        if (e.key.toLowerCase() === 's') openModal();
+      });
+
+      function launchConfetti(count=40) {
+        for (let i=0;i<count;i++){
+          const c = document.createElement('div');
+          c.className = 'confetti';
+          c.style.background = ['#ff6b81','#ffd166','#8be6ff','#b28dff'][Math.floor(Math.random()*4)];
+          c.style.left = Math.random()*100 + '%';
+          c.style.transform = `rotate(${Math.random()*360}deg)`;
+          c.style.width = (6 + Math.random()*8) + 'px';
+          c.style.height = (8 + Math.random()*10) + 'px';
+          document.body.appendChild(c);
+          c.style.animationDuration = (0.9 + Math.random()*1.6) + 's';
+          setTimeout(()=> c.remove(), 3000);
+        }
+      }
+
+      setTimeout(()=> launchConfetti(12), 900);
+
+    })();
+  </script>
+</body>
+</html>
